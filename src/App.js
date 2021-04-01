@@ -1,21 +1,37 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
+import { useReducer } from 'react';
 import './App.css';
 
-class App extends Component {
-	render() {
-		return (
-			<div className="App">
-				<header className="App-header">
-					<img src={logo} className="App-logo" alt="logo" />
-					<p>I have edited it!!!!!!</p>
-					<a className="App-link" href="https://reactjs.org" target="_blank" rel="noopener noreferrer">
-						Learn React
-					</a>
-				</header>
-			</div>
-		);
-	}
+function reducer(state, action) {
+  switch (action.type) {
+    case 'INCREMENT':
+      return { count: state.count + action.amount };
+    case 'DECREMENT':
+      return { count: state.count - action.amount };
+    case 'RESET':
+      return { count: 0 };
+    default:
+      throw new Error();
+  }
+}
+function App() {
+  const [state, dispatch] = useReducer(reducer, { count: 0 });
+  return (
+    <div className="App">
+      <h1>{state.count}</h1>
+      <button onClick={() => dispatch({ type: 'INCREMENT', amount: 1 })}>
+        Add 1
+      </button>
+      <button onClick={() => dispatch({ type: 'INCREMENT', amount: 5 })}>
+        Add 5
+      </button>
+      <button onClick={() => dispatch({ type: 'DECREMENT', amount: 1 })}>
+        Sub -1
+      </button>
+      <button onClick={() => dispatch({ type: 'RESET', amount: 0 })}>
+        Reset
+      </button>
+    </div>
+  );
 }
 
 export default App;
